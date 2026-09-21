@@ -1,18 +1,11 @@
-Agent Operations Lab was created as a learning project to explore the architecture behind AI agents and AI-powered research systems.
+# Agent Operations Lab
 
-The current workflow allows an agent to:
+Agent Operations Lab is an AI powered research application designed to identify and analyse potential business opportunities by combining **web search, AI integration and structured research workflows**. 
+The project explores how AI agents can use external tools to gather information, analyse evidence and produce structured research findings for human review.
 
-Receive a research objective
-Determine what information it needs
-Search the web using the Tavily Search API
-Read relevant webpages
-Collect and structure evidence
-Analyse the information using an LLM
-Return structured research findings for human review
 
-The goal is not to replace human decision-making but to explore how AI can assist with research, discovery and information gathering.
+## Current Architecture
 
-Current Architecture
 ```text
 User
  │
@@ -40,48 +33,39 @@ LLM Analysis
  │
  ▼
 Structured Research Results
+```
 
-The application separates the agent's reasoning and tool execution from the user interface, allowing the system to evolve as additional tools and workflows are introduced.
+The application separates the agent's orchestration and tool execution from the user interface allowing additional tools and research workflows to be introduced over time.
 
-Features
-AI Agent
+## Features
 
-The project uses an LLM-driven agent capable of selecting and invoking tools as part of a research workflow.
+### AI Agent
 
-Web Search
+Uses an LLM-driven agent capable of selecting and invoking tools as part of a multi-step research workflow.
 
-Uses the Tavily Web Search API to retrieve relevant web results for research tasks.
+### Web Search
 
-Webpage Reading
+Uses the Tavily Web Search API to discover relevant information and sources from the web.
 
-The agent can retrieve and process information from webpages discovered during its research process.
+### Webpage Reading
 
-Evidence Collection
+Retrieves and processes information from webpages identified during the research process.
 
-Research findings are structured around individual pieces of evidence rather than relying solely on a final generated response.
+### Evidence Collection
 
-Structured Research
+Collects and structures supporting information from research sources rather than relying solely on generated responses.
 
-Research outputs are defined using schemas so that information can be returned in a predictable format rather than as unstructured text.
+### Structured Research
 
-Multi-Step Research
+Uses defined schemas to return research findings in a predictable and structured format.
 
-The agent can perform multiple searches and webpage reads as it works toward a research objective.
+### Multi-Step Research
 
-Technology Stack
-Next.js
-React
-TypeScript
-Tailwind CSS
-Tavily Web Search API
-LLM APIs
-REST API routes
-Node.js
+Allows the agent to perform multiple searches and webpage reads to investigate a research objective.
 
-Example Research Workflow
+## Research Workflow
 
-A typical research request can follow a workflow similar to:
-
+```text
 Research Objective
        │
        ▼
@@ -108,54 +92,65 @@ Analyse Evidence
        │
        ▼
 Structured Findings
+```
 
-This workflow is intentionally designed around tool use and evidence, rather than simply asking an LLM to generate an answer from its existing knowledge.
+The workflow is designed around **tool use, external information, and evidence collection** rather than simply asking an LLM to generate an answer from its existing knowledge.
 
-Why I Built This
+## Technology Stack
 
-Most of my previous development work has focused on traditional web applications including dashboards, authentication, databases, state management and user-facing workflows.
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+* Node.js
+* Tavily Web Search API
+* LLM APIs
+* REST API Routes
 
-Agent Operations Lab represents a new direction in my development journey:
+## Environment Variables
 
-How can software systems use AI to interact with tools, gather information, and perform useful multi-step tasks?
+Create a `.env.local` file in the project root and add the required API credentials:
 
-This project is my practical exploration of that question.
-
-It also gives me an opportunity to combine my existing web development skills with emerging AI application patterns.
-
-Create a .env.local file in the project root and add the required API credentials.
-
-Example:
-
+```env
 TAVILY_API_KEY=your_tavily_api_key
 YOUR_LLM_API_KEY=your_llm_api_key
+```
 
-Never commit .env.local or API keys to GitHub.
+**Never commit `.env.local` or API keys to GitHub.**
 
-Running Locally
+## Running Locally
 
 Clone the repository:
 
+```bash
 git clone https://github.com/LupiwoPhillips/agent-operations-lab.git
 cd agent-operations-lab
+```
 
 Install dependencies:
 
+```bash
 npm install
+```
 
-Create your environment file:
+Create your `.env.local` file and add the required API credentials.
 
-.env.local
+Start the development server:
 
-Add your API credentials, then start the development server:
-
+```bash
 npm run dev
+```
 
-Open:
+Open the application at:
 
+```text
 http://localhost:3000
-Status
+```
 
-This project is actively being developed as a practical exploration of AI agents, web research, and AI-powered software systems.
+## Why I Built This
 
-The architecture and functionality will continue to evolve as new concepts are learned and implemented.
+My previous development work has primarily focused on traditional web applications including dashboards, databases, authentication, state management and user-facing workflows.
+
+Agent Operations Lab represents an expansion into **AI powered applications and agent-based systems** exploring how software can use AI to interact with external tools, gather information, and perform useful multi-step research.
+
+## Status
