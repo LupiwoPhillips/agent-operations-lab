@@ -13,31 +13,32 @@ Return structured research findings for human review
 The goal is not to replace human decision-making but to explore how AI can assist with research, discovery and information gathering.
 
 Current Architecture
+```text
 User
-  │
-  ▼
+ │
+ ▼
 Next.js Application
-  │
-  ▼
+ │
+ ▼
 Agent API
-  │
-  ▼
+ │
+ ▼
 Agent Orchestration
-  │
-  ├── Web Search Tool
-  │       │
-  │       └── Tavily Search API
-  │
-  ├── Webpage Reader
-  │
-  ├── Evidence Collection
-  │
-  └── Research Schema
-  │
-  ▼
+ │
+ ├── Web Search Tool
+ │      │
+ │      └── Tavily Search API
+ │
+ ├── Webpage Reader
+ │
+ ├── Evidence Collection
+ │
+ └── Research Schema
+ │
+ ▼
 LLM Analysis
-  │
-  ▼
+ │
+ ▼
 Structured Research Results
 
 The application separates the agent's reasoning and tool execution from the user interface, allowing the system to evolve as additional tools and workflows are introduced.
@@ -76,34 +77,7 @@ Tavily Web Search API
 LLM APIs
 REST API routes
 Node.js
-Project Structure
-agent-operations-lab/
-│
-├── src/
-│   ├── app/
-│   │   ├── api/
-│   │   │   └── agent/
-│   │   │       └── route.ts
-│   │   │
-│   │   └── page.tsx
-│   │
-│   └── lib/
-│       ├── agent/
-│       │   ├── runAgent.ts
-│       │   ├── toolDefinitions.ts
-│       │   └── types.ts
-│       │
-│       ├── research/
-│       │   ├── evidence.ts
-│       │   └── opportunitySchema.ts
-│       │
-│       └── tools/
-│           ├── readWebpage.ts
-│           └── searchWeb.ts
-│
-├── public/
-├── package.json
-└── README.md
+
 Example Research Workflow
 
 A typical research request can follow a workflow similar to:
@@ -111,29 +85,29 @@ A typical research request can follow a workflow similar to:
 Research Objective
        │
        ▼
-   Agent decides
-   what it needs
+Agent determines
+what information it needs
        │
        ▼
-   Web Search
+Web Search
        │
        ▼
-   Search Results
+Search Results
        │
        ▼
- Select relevant sources
+Select Relevant Sources
        │
        ▼
- Read webpages
+Read Webpages
        │
        ▼
- Collect evidence
+Collect Evidence
        │
        ▼
- Analyse evidence
+Analyse Evidence
        │
        ▼
- Structured findings
+Structured Findings
 
 This workflow is intentionally designed around tool use and evidence, rather than simply asking an LLM to generate an answer from its existing knowledge.
 
