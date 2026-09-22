@@ -152,5 +152,3 @@ http://localhost:3000
 My previous development work has primarily focused on traditional web applications including dashboards, databases, authentication, state management and user-facing workflows.
 
 Agent Operations Lab represents an expansion into **AI powered applications and agent-based systems** exploring how software can use AI to interact with external tools, gather information, and perform useful multi-step research.
-
-## Status
