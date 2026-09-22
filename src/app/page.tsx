@@ -3,13 +3,12 @@
 import { useState } from "react";
 import type {
   ConfidenceLevel,
-  OpportunityResearch,
+  ResearchResult,
 } from "@/lib/agent/types";
 
 export default function Home() {
   const [objective, setObjective] = useState("");
-  const [research, setResearch] =
-    useState<OpportunityResearch | null>(null);
+  const [research, setResearch] = useState<ResearchResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -284,6 +283,12 @@ export default function Home() {
                   <span className="rounded-md border border-slate-800 bg-slate-900 px-2 py-1 text-[10px] font-medium uppercase tracking-wider text-slate-500">
                     Review required
                   </span>
+
+                  <span className="rounded-md border border-slate-800 bg-slate-900 px-2 py-1 text-[10px] font-medium uppercase tracking-wider text-slate-500">
+                    {research.researchType === "general_research"
+                      ? "General research"
+                      : "Opportunity discovery"}
+                  </span>
                 </div>
               </div>
 
@@ -309,10 +314,208 @@ export default function Home() {
   );
 }
 
+/* -------------------------------------------------------------------------- */
+/* RESEARCH OUTPUT                                                            */
+/* -------------------------------------------------------------------------- */
+
 function ResearchOutput({
   research,
 }: {
-  research: OpportunityResearch;
+  research: ResearchResult;
+}) {
+  if (research.researchType === "general_research") {
+    return <GeneralResearchOutput research={research} />;
+  }
+
+  return <OpportunityResearchOutput research={research} />;
+}
+
+/* -------------------------------------------------------------------------- */
+/* GENERAL RESEARCH                                                           */
+/* -------------------------------------------------------------------------- */
+
+function GeneralResearchOutput({
+  research,
+}: {
+  research: Extract<
+    ResearchResult,
+    { researchType: "general_research" }
+  >;
+}) {
+  return (
+    <div className="space-y-10">
+      {/* SUMMARY */}
+      <section>
+        <SectionHeading title="Research Summary" />
+
+        <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-5">
+          <p className="text-sm leading-7 text-slate-400">
+            {research.summary}
+          </p>
+        </div>
+      </section>
+
+      {/* KEY FINDINGS */}
+      <section>
+        <SectionHeading title="Key Findings" />
+
+        {research.keyFindings.length === 0 ? (
+          <EmptyState message="No structured key findings were returned." />
+        ) : (
+          <div className="space-y-3">
+            {research.keyFindings.map((finding, index) => (
+              <div
+                key={`${finding}-${index}`}
+                className="flex gap-4 rounded-xl border border-slate-800 bg-slate-950/60 p-5"
+              >
+                <span className="font-mono text-xs text-slate-600">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <p className="text-sm leading-7 text-slate-400">
+                  {finding}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* EVIDENCE */}
+      <section>
+        <SectionHeading title="Evidence" />
+
+        {research.evidence.length === 0 ? (
+          <EmptyState message="No structured evidence was returned." />
+        ) : (
+          <div className="space-y-4">
+            {research.evidence.map((item, index) => (
+              <div
+                key={`${item.sourceUrl}-${index}`}
+                className="rounded-xl border border-slate-800 bg-slate-950/60 p-5"
+              >
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <h4 className="text-sm font-semibold leading-6 text-slate-200">
+                    {item.claim}
+                  </h4>
+
+                  <ConfidenceBadge confidence={item.confidence} />
+                </div>
+
+                <p className="mt-3 text-sm leading-7 text-slate-400">
+                  {item.evidence}
+                </p>
+
+                <div className="mt-4">
+                  {item.sourceTitle && (
+                    <p className="text-xs text-slate-600">
+                      {item.sourceTitle}
+                    </p>
+                  )}
+
+                  <a
+                    href={item.sourceUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-2 block break-all text-xs text-slate-500 underline decoration-slate-700 underline-offset-4 transition hover:text-slate-300"
+                  >
+                    {item.sourceUrl}
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* SOURCES */}
+      <section>
+        <SectionHeading title="Sources" />
+
+        {research.sources.length === 0 ? (
+          <EmptyState message="No structured sources were returned." />
+        ) : (
+          <div className="space-y-2">
+            {research.sources.map((source) => (
+              <a
+                key={source.url}
+                href={source.url}
+                target="_blank"
+                rel="noreferrer"
+                className="flex flex-col gap-2 rounded-lg border border-slate-800 bg-slate-950/40 p-4 transition hover:border-slate-700 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div className="min-w-0">
+                  <p className="truncate text-sm text-slate-300">
+                    {source.title ?? source.url}
+                  </p>
+
+                  <p className="mt-1 break-all text-xs text-slate-600">
+                    {source.url}
+                  </p>
+                </div>
+
+                <span className="shrink-0 rounded-md border border-slate-800 bg-slate-900 px-2 py-1 text-[10px] uppercase tracking-wider text-slate-600">
+                  {source.sourceType}
+                </span>
+              </a>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* LIMITATIONS */}
+      <section>
+        <SectionHeading title="Limitations" />
+
+        {research.limitations.length === 0 ? (
+          <EmptyState message="No limitations were reported." />
+        ) : (
+          <ul className="space-y-2">
+            {research.limitations.map((limitation, index) => (
+              <li
+                key={`${limitation}-${index}`}
+                className="flex gap-3 rounded-lg border border-slate-800 bg-slate-950/40 p-4"
+              >
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-600" />
+
+                <p className="text-sm leading-7 text-slate-400">
+                  {limitation}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      {/* CONFIDENCE */}
+      <section>
+        <SectionHeading title="Research Confidence" />
+
+        <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-5">
+          <ConfidenceBadge confidence={research.confidence} />
+
+          <p className="mt-4 text-sm leading-7 text-slate-500">
+            Confidence describes the strength of the available evidence.
+            It does not mean that every statement has been independently
+            verified beyond the cited sources.
+          </p>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* OPPORTUNITY RESEARCH                                                       */
+/* -------------------------------------------------------------------------- */
+
+function OpportunityResearchOutput({
+  research,
+}: {
+  research: Extract<
+    ResearchResult,
+    { researchType: "opportunity_discovery" }
+  >;
 }) {
   return (
     <div className="space-y-10">
@@ -522,7 +725,9 @@ function ResearchOutput({
 
           <DetailBlock
             label="Why this is a reasonable entry point"
-            value={research.entryPlan.whyThisIsAReasonableEntryPoint}
+            value={
+              research.entryPlan.whyThisIsAReasonableEntryPoint
+            }
           />
 
           <DetailBlock
@@ -625,6 +830,10 @@ function ResearchOutput({
     </div>
   );
 }
+
+/* -------------------------------------------------------------------------- */
+/* SHARED UI COMPONENTS                                                       */
+/* -------------------------------------------------------------------------- */
 
 function SectionHeading({ title }: { title: string }) {
   return (

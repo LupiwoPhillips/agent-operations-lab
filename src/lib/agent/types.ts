@@ -7,7 +7,10 @@ export type SourceType =
   | "search"
   | "other";
 
-export type ConfidenceLevel = "low" | "medium" | "high";
+export type ConfidenceLevel =
+  | "low"
+  | "medium"
+  | "high";
 
 export type ResearchType =
   | "general_research"
@@ -84,6 +87,14 @@ export type OpportunityResearch = {
   confidence: ConfidenceLevel;
 };
 
+export type GeneralResearchEvidence = {
+  claim: string;
+  evidence: string;
+  sourceUrl: string;
+  sourceTitle: string | null;
+  confidence: ConfidenceLevel;
+};
+
 export type GeneralResearch = {
   researchType: "general_research";
 
@@ -91,13 +102,7 @@ export type GeneralResearch = {
 
   keyFindings: string[];
 
-  evidence: {
-    claim: string;
-    evidence: string;
-    sourceUrl: string;
-    sourceTitle: string | null;
-    confidence: ConfidenceLevel;
-  }[];
+  evidence: GeneralResearchEvidence[];
 
   limitations: string[];
 
@@ -106,6 +111,6 @@ export type GeneralResearch = {
   confidence: ConfidenceLevel;
 };
 
-export type StructuredResearch =
+export type ResearchResult =
   | OpportunityResearch
   | GeneralResearch;
