@@ -96,118 +96,110 @@ Do not force a general research question into an opportunity.
 
 OPPORTUNITY DISCOVERY METHODOLOGY
 
-When performing opportunity discovery:
+Opportunity discovery is an evidence investigation, not a search for reasons to sell something.
 
-1. Understand the user's objective.
+Follow this sequence:
 
-2. Determine what type of businesses, market, geography, industry, or capability
-   is relevant.
+1. Parse the objective into:
+   - target geography
+   - target business type or size
+   - problem signals being investigated
+   - evidence required to support a candidate
+   - evidence that would disqualify or weaken a candidate
 
-3. Discover candidate businesses using focused searches.
+2. DISCOVERY PHASE
+   Use different search angles rather than repeating the same query. For objectives involving operational problems, deliberately vary searches across the signal categories in the user's objective.
 
-4. Verify that candidate businesses are relevant to the objective.
+3. CANDIDATE SCREENING PHASE
+   For each promising business, verify its identity, location, industry and relevance. Do not promote a business to an opportunity merely because a search result mentions it.
 
-5. Identify the candidate's official website when possible.
+4. EVIDENCE VERIFICATION PHASE
+   Investigate the strongest candidates for direct public evidence. Prefer the original social post, comment thread, business page, official page, or primary source when accessible. Use search-result snippets only when the underlying source cannot be inspected, and mark the evidence accordingly.
 
-6. Inspect the actual website using read_webpage when the URL is available.
+5. OPPORTUNITY ANALYSIS PHASE
+   Only after evidence has been collected may you infer a potential operational gap. Connect:
+   evidence → observed behaviour → possible operational implication → possible solution → verification question
 
-7. Look for observable digital or operational signals relevant to the objective.
+6. STOP CONDITION
+   If the available evidence does not establish a meaningful problem signal, do not manufacture an opportunity. Return no qualifying candidate or clearly mark the candidate as insufficiently supported.
 
-8. Distinguish direct observations from inference.
+For the user's social-media workflow objective specifically, investigate distinct signal families such as:
 
-9. Determine whether an observed gap could plausibly be addressed through a
-   service or capability relevant to the user's objective.
+- unanswered or delayed enquiries
+- customers reporting that messages were missed or ignored
+- repeated questions that appear unresolved
+- repeated manual movement between DM, WhatsApp, email and phone
+- booking, ordering or quotation requests handled through repetitive manual communication
+- inconsistent, outdated or contradictory public information
+- publicly acknowledged posting or communication mistakes
+- repeated requests to resend information
+- evidence of missed leads or follow-up failures
 
-10. Do not manufacture a gap simply because the business has a website.
+Do NOT treat the mere use of DMs, WhatsApp, contact forms or phone calls as an operational problem.
 
-11. Do not manufacture a business need simply because a business belongs to an
-    industry.
+Do NOT treat a single ordinary complaint as proof of a systemic problem.
 
-12. If no meaningful opportunity can be supported by the available evidence,
-    represent that uncertainty clearly.
+Stronger evidence includes explicit business acknowledgement, repeated customer reports, repeated incidents, or a clear public statement that a message/request was missed or delayed.
 
-13. Prefer a small number of well-investigated candidates over a large list of
-    poorly investigated businesses.
+Prefer small and medium-sized commercial businesses when the objective asks for commercially actionable opportunities, but never lower the evidence standard to fill the result.
 
 EVIDENCE RULES
 
-For important findings, establish where possible:
+Every important finding must be traceable to evidence actually collected by the tools.
 
-- who the business is
-- what the business does
-- where it operates when relevant
-- what its current digital presence appears to be
-- what specific observable gap exists
-- what evidence supports the observation
-- what remains uncertain
+For every observation, distinguish:
 
-Every important observation must contain:
+OBSERVED
+Something directly visible in a collected source.
 
-- a claim
-- supporting evidence
-- source URL
-- source title when available
-- source type
+EXPLICITLY REPORTED
+A business or customer explicitly states something in a collected source.
+
+INFERRED
+A reasonable interpretation of one or more observations.
+
+UNKNOWN
+Something that cannot be established from the available public evidence.
+
+Never write an inferred operational problem as though it were directly observed.
+
+Every observation must contain exactly these fields:
+- id
+- claim
+- evidence
+- sourceUrl
+- sourceTitle
+- sourceType
 - confidence
 
-GENERAL RESEARCH EVIDENCE CONTRACT
+The evidence field must explain the concrete supporting fact from the source. It must not merely repeat the claim.
 
-For the evidence array, use EXACTLY these field names:
+SOURCE INTEGRITY
 
+Only cite URLs that appeared in collected search results or successfully read webpages.
+
+Do not invent URLs.
+
+Do not replace an exact source URL with a homepage or base domain unless that exact URL was collected.
+
+Do not use fields named "url" or "source" inside evidence items. The canonical evidence field is "sourceUrl".
+
+For general research evidence, every item must contain exactly:
 - claim
 - evidence
 - sourceUrl
 - sourceTitle
 - confidence
 
-Do NOT use url, source, or sourceType inside an evidence item.
-
-sourceUrl must be the exact URL returned by search_web or read_webpage.
-Do not invent URLs, replace them with a base domain, or describe a source in
-place of its URL.
-
-evidence must contain the concise fact or supporting text actually found in
-the collected web evidence. Do not leave it as an explanation of why the
-source is relevant.
-
-If an exact supporting URL was not collected, do not create the evidence item.
-Put the missing verification in limitations instead.
-
-SOURCE OBJECT CONTRACT
-
-For the top-level sources array, every item must use EXACTLY:
-
-{
-  "url": "exact collected URL",
-  "title": "source title or null",
-  "sourceType": "official | government | news | directory | social | search | other"
-}
-
-Do not return source URLs as plain strings.
-
-Do not present inference as fact.
+For opportunity discovery sources, every source must be an object containing exactly:
+- url
+- title
+- sourceType
 
 A potential gap is NOT a confirmed business need.
 
 Every potential gap must have:
-
 confirmedNeed: false
-
-This is mandatory.
-
-Use the following distinction internally:
-
-OBSERVATION
-
-Something directly supported by evidence.
-
-INFERENCE
-
-A reasonable interpretation of one or more observations.
-
-UNKNOWN
-
-Something that cannot be established from the available evidence.
 
 COMMERCIAL REASONING
 
@@ -272,15 +264,19 @@ RESEARCH BUDGET
 
 You have a limited research budget.
 
-Avoid repeating substantially similar searches.
+For opportunity discovery, do not spend the entire budget on broad discovery searches. Reserve part of the budget for candidate verification.
 
-Prefer investigating promising candidates rather than continuously searching
-for more candidates.
+Avoid repeating substantially similar searches. Each search should have a distinct research purpose.
+
+A good opportunity-discovery sequence is generally:
+- broad discovery
+- alternate signal search
+- candidate-specific verification
+- primary-source inspection
+
+If the evidence is weak, spend remaining budget verifying the strongest candidates rather than generating more speculative candidates.
 
 If sufficient evidence has been collected, stop researching.
-
-Do not continue searching merely because more information could theoretically
-be found.
 
 RESEARCH QUALITY
 
@@ -358,6 +354,22 @@ For general research, use:
   "confidence": "low | medium | high"
 }
 
+FINAL JSON CONTRACT
+
+The final JSON must use the exact field names shown in the schema. Do not rename fields.
+
+General evidence uses sourceUrl, not url.
+
+Opportunity observations use sourceUrl, not url.
+
+Sources are objects, not strings.
+
+Never add sourceType to a general evidence item.
+
+Never add unsupported fields to any object.
+
+Only use source URLs present in the collected evidence.
+
 FINAL OUTPUT LIMITS
 
 General research:
@@ -384,7 +396,7 @@ type AgentMessage =
   OpenAI.Chat.Completions.ChatCompletionMessageParam;
 
 const MAX_AGENT_ROUNDS = 8;
-const MAX_SEARCHES = 4;
+const MAX_SEARCHES = 6;
 const MAX_PAGE_READS = 6;
 const MAX_FINAL_ATTEMPTS = 2;
 
@@ -823,21 +835,13 @@ function extractJson(content: string): unknown {
 }
 
 function validateParsedResearch(
-  content: string,
-  knownSourceUrls?: Set<string>
+  content: string
 ): unknown {
   const parsed = extractJson(content);
 
   if (
     parsed &&
-    validateStructuredResearch(parsed) &&
-    (
-      !knownSourceUrls ||
-      hasValidCollectedSourceUrls(
-        parsed,
-        knownSourceUrls
-      )
-    )
+    validateStructuredResearch(parsed)
   ) {
     return parsed;
   }
@@ -881,128 +885,6 @@ function compactPageResult(
   };
 }
 
-function normalizeSourceUrl(url: string): string {
-  return url
-    .trim()
-    .replace(/\/$/, "")
-    .toLowerCase();
-}
-
-function collectKnownSourceUrls(
-  messages: AgentMessage[]
-): Set<string> {
-  const knownUrls = new Set<string>();
-
-  for (const message of messages) {
-    if (message.role !== "tool") {
-      continue;
-    }
-
-    if (typeof message.content !== "string") {
-      continue;
-    }
-
-    try {
-      const parsed = JSON.parse(message.content) as unknown;
-
-      const collectUrls = (value: unknown): void => {
-        if (Array.isArray(value)) {
-          for (const item of value) {
-            collectUrls(item);
-          }
-          return;
-        }
-
-        if (typeof value !== "object" || value === null) {
-          return;
-        }
-
-        const record = value as Record<string, unknown>;
-
-        if (typeof record.url === "string") {
-          knownUrls.add(normalizeSourceUrl(record.url));
-        }
-
-        for (const child of Object.values(record)) {
-          collectUrls(child);
-        }
-      };
-
-      collectUrls(parsed);
-    } catch {
-      continue;
-    }
-  }
-
-  return knownUrls;
-}
-
-function hasValidCollectedSourceUrls(
-  research: unknown,
-  knownSourceUrls: Set<string>
-): boolean {
-  if (
-    typeof research !== "object" ||
-    research === null ||
-    Array.isArray(research)
-  ) {
-    return false;
-  }
-
-  const researchRecord =
-    research as Record<string, unknown>;
-
-  const urlFields: unknown[] = [];
-
-  const evidence = researchRecord.evidence;
-  if (Array.isArray(evidence)) {
-    for (const item of evidence) {
-      if (typeof item !== "object" || item === null) {
-        return false;
-      }
-
-      const record = item as Record<string, unknown>;
-      urlFields.push(record.sourceUrl);
-    }
-  }
-
-  const observations = researchRecord.observations;
-  if (Array.isArray(observations)) {
-    for (const item of observations) {
-      if (typeof item !== "object" || item === null) {
-        return false;
-      }
-
-      const record = item as Record<string, unknown>;
-      urlFields.push(record.sourceUrl);
-    }
-  }
-
-  const sources = researchRecord.sources;
-  if (Array.isArray(sources)) {
-    for (const item of sources) {
-      if (typeof item !== "object" || item === null) {
-        return false;
-      }
-
-      const record = item as Record<string, unknown>;
-      urlFields.push(record.url);
-    }
-  }
-
-  for (const url of urlFields) {
-    if (typeof url !== "string") {
-      return false;
-    }
-
-    if (!knownSourceUrls.has(normalizeSourceUrl(url))) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
 function deduplicateSources(
   research: unknown
 ): unknown {
@@ -1016,11 +898,10 @@ function deduplicateSources(
 
   const researchRecord =
     research as Record<string, unknown>;
-
   const sources = researchRecord.sources;
 
   if (!Array.isArray(sources)) {
-    return researchRecord;
+    return research;
   }
 
   const seen = new Set<string>();
@@ -1043,7 +924,10 @@ function deduplicateSources(
         return false;
       }
 
-      const normalizedUrl = normalizeSourceUrl(url);
+      const normalizedUrl = url
+        .trim()
+        .replace(/\/$/, "")
+        .toLowerCase();
 
       if (seen.has(normalizedUrl)) {
         return false;
@@ -1058,11 +942,119 @@ function deduplicateSources(
   return researchRecord;
 }
 
+function collectKnownSourceUrls(
+  messages: AgentMessage[]
+): Set<string> {
+  const urls = new Set<string>();
+
+  for (const message of messages) {
+    if (message.role !== "tool" || typeof message.content !== "string") {
+      continue;
+    }
+
+    try {
+      const parsed = JSON.parse(message.content) as unknown;
+
+      if (typeof parsed !== "object" || parsed === null) {
+        continue;
+      }
+
+      const record = parsed as Record<string, unknown>;
+      const results = record.results;
+
+      if (Array.isArray(results)) {
+        for (const result of results) {
+          if (typeof result !== "object" || result === null) {
+            continue;
+          }
+
+          const resultRecord = result as Record<string, unknown>;
+          const url = resultRecord.url;
+
+          if (typeof url === "string") {
+            urls.add(normalizeSourceUrl(url));
+          }
+        }
+      }
+
+      const result = record.result;
+
+      if (typeof result === "object" && result !== null) {
+        const resultRecord = result as Record<string, unknown>;
+        const url = resultRecord.url;
+
+        if (typeof url === "string") {
+          urls.add(normalizeSourceUrl(url));
+        }
+      }
+    } catch {
+      // Ignore non-JSON tool messages.
+    }
+  }
+
+  return urls;
+}
+
+function normalizeSourceUrl(url: string): string {
+  return url.trim().replace(/\/$/, "").toLowerCase();
+}
+
+function researchHasValidSourceUrls(
+  research: unknown,
+  knownSourceUrls: Set<string>
+): boolean {
+  if (
+    typeof research !== "object" ||
+    research === null ||
+    Array.isArray(research)
+  ) {
+    return false;
+  }
+
+  const record = research as Record<string, unknown>;
+
+  const checkItems = (items: unknown, field: string): boolean => {
+    if (!Array.isArray(items)) {
+      return true;
+    }
+
+    for (const item of items) {
+      if (typeof item !== "object" || item === null) {
+        return false;
+      }
+
+      const itemRecord = item as Record<string, unknown>;
+      const url = itemRecord[field];
+
+      if (typeof url !== "string" || !knownSourceUrls.has(normalizeSourceUrl(url))) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  if (!checkItems(record.evidence, "sourceUrl")) {
+    return false;
+  }
+
+  if (!checkItems(record.observations, "sourceUrl")) {
+    return false;
+  }
+
+  if (!checkItems(record.sources, "url")) {
+    return false;
+  }
+
+  return true;
+}
+
 async function createFinalResearchResponse(
   messages: AgentMessage[]
 ): Promise<unknown> {
-  const knownSourceUrls =
-    collectKnownSourceUrls(messages);
+  const knownSourceUrls = collectKnownSourceUrls(messages);
+
+  const sourceCatalog = Array.from(knownSourceUrls);
 
   const finalMessages: AgentMessage[] = [
     ...messages,
@@ -1090,6 +1082,13 @@ Do not repeat the same source unnecessarily.
 Keep every string concise.
 
 The complete response must fit comfortably within the response limit.
+
+SOURCE CATALOG
+
+You may cite ONLY these exact collected source URLs:
+${sourceCatalog.length > 0 ? sourceCatalog.map((url) => `- ${url}`).join("\n") : "- No verified source URLs were collected."}
+
+If a claim cannot be tied to one of these URLs, do not include it as evidence or as a source. Put the uncertainty in limitations instead.
 
 FINAL LIMITS
 
@@ -1126,31 +1125,6 @@ evidence = null
 Every potential gap MUST contain:
 
 confirmedNeed = false
-
-EVIDENCE FIELD NAMES ARE STRICT.
-
-For every item in evidence, use exactly:
-
-{
-  "claim": "...",
-  "evidence": "...",
-  "sourceUrl": "exact URL from collected tool output",
-  "sourceTitle": "... or null",
-  "confidence": "low | medium | high"
-}
-
-Do NOT use url, source, or sourceType in an evidence item.
-
-For every item in sources, use exactly:
-
-{
-  "url": "exact URL from collected tool output",
-  "title": "... or null",
-  "sourceType": "official | government | news | directory | social | search | other"
-}
-
-Every evidence, observation, and source URL MUST come from a URL actually
-returned by the research tools. If a URL was not collected, do not invent it.
 
 The final object must be complete.
 
@@ -1194,12 +1168,12 @@ Return ONLY the JSON object.
         message?.content ?? "";
 
       const parsed =
-        validateParsedResearch(
-          content,
-          knownSourceUrls
-        );
+        validateParsedResearch(content);
 
-      if (parsed) {
+      if (
+        parsed &&
+        researchHasValidSourceUrls(parsed, knownSourceUrls)
+      ) {
         return deduplicateSources(parsed);
       }
 
@@ -1246,11 +1220,16 @@ Return ONLY the JSON object.
 
     const fallbackParsed =
       validateParsedResearch(
-        fallbackContent,
-        knownSourceUrls
+        fallbackContent
       );
 
-    if (fallbackParsed) {
+    if (
+      fallbackParsed &&
+      researchHasValidSourceUrls(
+        fallbackParsed,
+        knownSourceUrls
+      )
+    ) {
       return deduplicateSources(
         fallbackParsed
       );
