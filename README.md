@@ -1,102 +1,92 @@
 # Agent Operations Lab
 
-Agent Operations Lab is an AI powered research application designed to identify and analyse potential business opportunities by combining **web search, AI integration and structured research workflows**. 
-The project explores how AI agents can use external tools to gather information, analyse evidence and produce structured research findings for human review.
+Agent Operations Lab (AOL) is an AI-powered research application for investigating business opportunities using **web search, AI analysis, external tools, and structured research workflows**.
 
+The project explores how AI agents can move beyond generating text and instead **research real-world information, interact with tools, collect evidence, and produce structured findings for human review**.
 
-## Current Architecture
+AOL is designed as an evolving platform rather than a single-purpose application with the goal of experimenting with different AI agents, tools, research workflows and business use cases.
 
-```text
-User
- │
- ▼
-Next.js Application
- │
- ▼
-Agent API
- │
- ▼
-Agent Orchestration
- │
- ├── Web Search Tool
- │      │
- │      └── Tavily Search API
- │
- ├── Webpage Reader
- │
- ├── Evidence Collection
- │
- └── Research Schema
- │
- ▼
-LLM Analysis
- │
- ▼
-Structured Research Results
-```
+---
 
-The application separates the agent's orchestration and tool execution from the user interface allowing additional tools and research workflows to be introduced over time.
+## What It Does
 
-## Features
+Agent Operations Lab allows a user to define a research objective and have an AI agent investigate it using external information.
 
-### AI Agent
+The agent can:
 
-Uses an LLM-driven agent capable of selecting and invoking tools as part of a multi-step research workflow.
+* Understand a research objective
+* Determine what information is needed
+* Search the web for relevant information
+* Identify potentially useful sources
+* Read information from webpages
+* Collect supporting evidence
+* Analyse the gathered information
+* Organise findings into structured results
+* Return research that can be reviewed by a human
+
+The goal is not to replace human decision-making instead AOL is built around the idea of **AI-assisted research**, where the agent handles information gathering and analysis while the human remains responsible for evaluating the findings and making decisions.
+
+---
+
+## Current Features
+
+### AI Research Agent
+
+Uses an LLM to reason through research objectives and determine which tools and information it needs during an investigation.
 
 ### Web Search
 
-Uses the Tavily Web Search API to discover relevant information and sources from the web.
+Uses the **Tavily Web Search API** to discover relevant information and sources across the web.
 
-### Webpage Reading
+### Webpage Research
 
-Retrieves and processes information from webpages identified during the research process.
+Allows the research workflow to retrieve and process information from webpages discovered during a search.
 
 ### Evidence Collection
 
-Collects and structures supporting information from research sources rather than relying solely on generated responses.
+Research findings are supported by information gathered from external sources rather than relying entirely on the model's existing knowledge.
 
 ### Structured Research
 
-Uses defined schemas to return research findings in a predictable and structured format.
+Research outputs follow defined structures so that findings can be consistently processed and displayed by the application.
 
 ### Multi-Step Research
 
-Allows the agent to perform multiple searches and webpage reads to investigate a research objective.
+The agent can perform multiple research actions as part of a single investigation rather than relying on one search or one AI response.
 
-## Research Workflow
+---
+
+## Research Process
+
+A typical investigation follows a process similar to:
 
 ```text
 Research Objective
-       │
-       ▼
-Agent determines
-what information it needs
-       │
-       ▼
-Web Search
-       │
-       ▼
-Search Results
-       │
-       ▼
-Select Relevant Sources
-       │
-       ▼
-Read Webpages
-       │
-       ▼
+        ↓
+Determine Information Needed
+        ↓
+Search the Web
+        ↓
+Identify Relevant Sources
+        ↓
+Read Sources
+        ↓
 Collect Evidence
-       │
-       ▼
-Analyse Evidence
-       │
-       ▼
-Structured Findings
+        ↓
+Analyse Information
+        ↓
+Generate Structured Findings
+        ↓
+Human Review
 ```
 
-The workflow is designed around **tool use, external information, and evidence collection** rather than simply asking an LLM to generate an answer from its existing knowledge.
+The exact workflow is continuously evolving as new capabilities are added to the platform.
 
-## Technology Stack
+---
+
+## Technology
+
+Agent Operations Lab is currently built with:
 
 * Next.js
 * React
@@ -105,50 +95,101 @@ The workflow is designed around **tool use, external information, and evidence c
 * Node.js
 * Tavily Web Search API
 * LLM APIs
-* REST API Routes
+* REST API routes
 
-## Environment Variables
+Additional tools and technologies may be introduced as the project evolves.
 
-Create a `.env.local` file in the project root and add the required API credentials:
+---
+
+## Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/LupiwoPhillips/agent-operations-lab.git
+
+cd agent-operations-lab
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure environment variables
+
+Create a `.env.local` file in the project root.
 
 ```env
 TAVILY_API_KEY=your_tavily_api_key
 YOUR_LLM_API_KEY=your_llm_api_key
 ```
 
-**Never commit `.env.local` or API keys to GitHub.**
+Never commit `.env.local` or API keys to GitHub.
 
-## Running Locally
-
-Clone the repository:
-
-```bash
-git clone https://github.com/LupiwoPhillips/agent-operations-lab.git
-cd agent-operations-lab
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Create your `.env.local` file and add the required API credentials.
-
-Start the development server:
+### 4. Start the development server
 
 ```bash
 npm run dev
 ```
 
-Open the application at:
+The application will be available at:
 
 ```text
 http://localhost:3000
 ```
 
+---
+
+## Project Direction
+
+Agent Operations Lab is being developed as a **general AI agent experimentation and research platform**, rather than being restricted to a single business research workflow.
+
+Future iterations may explore:
+
+* Additional AI agents
+* Additional external tools
+* Automated research workflows
+* Different research domains
+* Opportunity discovery
+* Competitive research
+* Market research
+* Business intelligence
+* Data extraction
+* Source verification
+* Agent-to-agent workflows
+* Human-in-the-loop systems
+* Automated reporting
+* AI-assisted decision-support systems
+
+The objective is to build the underlying capabilities gradually and allow the platform to expand as new use cases are discovered.
+
+---
+
 ## Why I Built This
 
-My previous development work has primarily focused on traditional web applications including dashboards, databases, authentication, state management and user-facing workflows.
+My previous development work has primarily focused on traditional web applications involving interfaces, dashboards, databases, authentication, state management, and user workflows.
 
-Agent Operations Lab represents an expansion into **AI powered applications and agent-based systems** exploring how software can use AI to interact with external tools, gather information, and perform useful multi-step research.
+Agent Operations Lab represents the next step in that progression. Instead of building applications where software only responds to user actions, AOL explores how software can **reason about a task, use external tools, gather information, and complete multi-step workflows**.
+
+The project is an opportunity to develop practical experience with:
+
+* AI agents
+* Tool calling
+* LLM integration
+* Web research
+* Evidence-based AI systems
+* Structured outputs
+* Agent orchestration
+* Human-in-the-loop workflows
+
+AOL is ultimately an exploration of how traditional software engineering can be combined with AI systems to build applications that can **actively perform useful work**.
+
+---
+
+## Status
+
+**Active Development**
+
+Agent Operations Lab is an ongoing project. Features, workflows, tools, and the underlying implementation are continuously being improved as the platform evolves.
